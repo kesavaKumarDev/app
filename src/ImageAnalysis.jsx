@@ -27,7 +27,7 @@ const ImageAnalysis = () => {
 
   const fetchSavedAnalyses = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/get-analyses");
+      const response = await fetch("https://render-3ux8.onrender.com/api/get-analyses");
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -117,22 +117,22 @@ const ImageAnalysis = () => {
       console.log("Selected analysis subtype:", analysisSubType);
       switch (analysisSubType) {
         case "error-level":
-          endpoint = "http://127.0.0.1:5000/api/analyze-and-visualize";
+          endpoint = "https://render-3ux8.onrender.com/api/analyze-and-visualize";
           break;
         case "clone-detection":
-          endpoint = "http://127.0.0.1:5000/api/clone-detection";
+          endpoint = "https://render-3ux8.onrender.com/api/clone-detection";
           break;
         case "deepfake":
-          endpoint = "http://127.0.0.1:5000/api/deepfake-detection";
+          endpoint = "https://render-3ux8.onrender.com/api/deepfake-detection";
           break;
         case "anomaly":
-          endpoint = "http://127.0.0.1:5000/api/anomaly-detection";
+          endpoint = "https://render-3ux8.onrender.com/api/anomaly-detection";
           break;
         case "forgery":
-          endpoint = "http://127.0.0.1:5000/api/forgery-detection";
+          endpoint = "https://render-3ux8.onrender.com/api/forgery-detection";
           break;
         default:
-          endpoint = "http://127.0.0.1:5000/api/analyze-and-visualize";
+          endpoint = "https://render-3ux8.onrender.com/api/analyze-and-visualize";
           break;
       }
 
@@ -226,7 +226,7 @@ const ImageAnalysis = () => {
       }
 
       // Send to backend
-      const response = await fetch("http://127.0.0.1:5000/api/save-analysis", {
+      const response = await fetch("https://render-3ux8.onrender.com/api/save-analysis", {
         method: "POST",
         body: formData,
       });
@@ -256,7 +256,7 @@ const ImageAnalysis = () => {
 
       // Load original image
       const originalImageResponse = await fetch(
-        `http://127.0.0.1:5000/api/get-image/${analysis.originalImageId}`
+        `https://render-3ux8.onrender.com/api/get-image/${analysis.originalImageId}`
       );
       if (!originalImageResponse.ok) {
         throw new Error("Failed to load original image");
@@ -273,7 +273,7 @@ const ImageAnalysis = () => {
       // Load result image if available
       if (analysis.resultImageId) {
         const resultImageResponse = await fetch(
-          `http://127.0.0.1:5000/api/get-image/${analysis.resultImageId}`
+          `https://render-3ux8.onrender.com/api/get-image/${analysis.resultImageId}`
         );
         if (resultImageResponse.ok) {
           const resultImageBlob = await resultImageResponse.blob();
@@ -324,7 +324,7 @@ const ImageAnalysis = () => {
     try {
       // Send delete request to backend
       const response = await fetch(
-        "http://127.0.0.1:5000/api/delete-all-analyses",
+        "https://render-3ux8.onrender.com/api/delete-all-analyses",
         {
           method: "DELETE",
         }
@@ -352,7 +352,7 @@ const ImageAnalysis = () => {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5000/api/delete-analysis/${analysisId}`,
+        `https://render-3ux8.onrender.com/api/delete-analysis/${analysisId}`,
         {
           method: "DELETE",
         }
