@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import "./ImageAnalysisNew.css";
-import { API_ENDPOINTS } from "./apiConfig";
 import TextAnalysis from "./TextAnalysis1";
 
 const ImageAnalysis = () => {
@@ -28,7 +27,7 @@ const ImageAnalysis = () => {
 
   const fetchSavedAnalyses = async () => {
     try {
-      const response = await fetch(API_ENDPOINTS.GET_ANALYSES);
+      const response = await fetch("http://127.0.0.1:5000/api/get-analyses");
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -118,22 +117,22 @@ const ImageAnalysis = () => {
       console.log("Selected analysis subtype:", analysisSubType);
       switch (analysisSubType) {
         case "error-level":
-          endpoint = API_ENDPOINTS.ANALYZE_AND_VISUALIZE;
+          endpoint = "http://127.0.0.1:5000/api/analyze-and-visualize";
           break;
         case "clone-detection":
-          endpoint = API_ENDPOINTS.CLONE_DETECTION;
+          endpoint = "http://127.0.0.1:5000/api/clone-detection";
           break;
         case "deepfake":
-          endpoint = API_ENDPOINTS.DEEPFAKE_DETECTION;
+          endpoint = "http://127.0.0.1:5000/api/deepfake-detection";
           break;
         case "anomaly":
-          endpoint = API_ENDPOINTS.ANOMALY_DETECTION;
+          endpoint = "http://127.0.0.1:5000/api/anomaly-detection";
           break;
         case "forgery":
-          endpoint = API_ENDPOINTS.FORGERY_DETECTION;
+          endpoint = "http://127.0.0.1:5000/api/forgery-detection";
           break;
         default:
-          endpoint = API_ENDPOINTS.ANALYZE_AND_VISUALIZE;
+          endpoint = "http://127.0.0.1:5000/api/analyze-and-visualize";
           break;
       }
 
@@ -227,7 +226,7 @@ const ImageAnalysis = () => {
       }
 
       // Send to backend
-      const response = await fetch(API_ENDPOINTS.SAVE_ANALYSIS, {
+      const response = await fetch("http://127.0.0.1:5000/api/save-analysis", {
         method: "POST",
         body: formData,
       });
@@ -257,7 +256,7 @@ const ImageAnalysis = () => {
 
       // Load original image
       const originalImageResponse = await fetch(
-        `https://render-3ux8.onrender.com/api/get-image/${analysis.originalImageId}`
+        `http://127.0.0.1:5000/api/get-image/${analysis.originalImageId}`
       );
       if (!originalImageResponse.ok) {
         throw new Error("Failed to load original image");
@@ -274,7 +273,7 @@ const ImageAnalysis = () => {
       // Load result image if available
       if (analysis.resultImageId) {
         const resultImageResponse = await fetch(
-          `https://render-3ux8.onrender.com/api/get-image/${analysis.resultImageId}`
+          `http://127.0.0.1:5000/api/get-image/${analysis.resultImageId}`
         );
         if (resultImageResponse.ok) {
           const resultImageBlob = await resultImageResponse.blob();
@@ -324,9 +323,12 @@ const ImageAnalysis = () => {
   const deleteAllAnalyses = async () => {
     try {
       // Send delete request to backend
-      const response = await fetch(API_ENDPOINTS.DELETE_ALL_ANALYSES, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/delete-all-analyses",
+        {
+          method: "DELETE",
+        }
+      );
 
       const result = await response.json();
       if (result.success) {
@@ -350,7 +352,7 @@ const ImageAnalysis = () => {
 
     try {
       const response = await fetch(
-        `https://render-3ux8.onrender.com/api/delete-analysis/${analysisId}`,
+        `http://127.0.0.1:5000/api/delete-analysis/${analysisId}`,
         {
           method: "DELETE",
         }
